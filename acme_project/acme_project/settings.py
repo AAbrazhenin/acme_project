@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-m&$lzdzkutvrbr5vt=jpm)7#g7cken_tk%($ty+w902n7wb#=e
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -15,8 +15,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+    'django_bootstrap5',
     'birthday.apps.BirthdayConfig',
     'pages.apps.PagesConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -27,6 +30,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'acme_project.urls'
@@ -51,12 +55,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'acme_project.wsgi.application'
 
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+LOGIN_REDIRECT_URL = 'pages:homepage'
+
+LOGIN_URL = 'login'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -73,16 +83,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
+
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

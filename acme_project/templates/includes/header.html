@@ -15,6 +15,26 @@
               Калькулятор дней рождения
             </a>
           </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'birthday:list' %} active {% endif %}"
+              href="{% url 'birthday:list' %}">
+              Список дней рождения
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+          <span class="navbar-text">Пользователь: <b>{{ user.username }}</b></span>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link{% if view_name == 'login' %} active {% endif %}" href="{% url 'login' %}">Войти</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link{% if view_name == 'registration' %} active {% endif %}" href="{% url 'registration' %}">Регистрация</a>
+            </li>
+          {% endif %}
         </ul>
       {% endwith %}
     </div>
